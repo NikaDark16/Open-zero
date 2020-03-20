@@ -26,6 +26,7 @@ func set_score(player, score):
 
 
 func _ready():
+	OS.current_screen = 0
 	score_p1 = 0
 	score_p2 = 0
 	step = 1

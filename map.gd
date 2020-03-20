@@ -2,9 +2,9 @@ extends Node2D
 
 var map = []
 var field = []
-var sprite_cell_blue
-var sprite_cell_red
-var cell
+onready var cell = load("res://cell.tscn")
+onready var sprite_cell_blue = load("res://cell_blue.png")
+onready var sprite_cell_red = load("res://cell_red.png")
 
 
 func generate_map():
@@ -68,9 +68,5 @@ func check_step(player, x, y):
 
 
 func _ready():
-	cell = load("res://cell.tscn")
-	sprite_cell_blue = load("res://cell_blue.png")
-	sprite_cell_red = load("res://cell_red.png")
 	generate_map()
 	draw_map()
-	print(map)

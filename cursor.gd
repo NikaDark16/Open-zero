@@ -1,10 +1,12 @@
 extends Sprite
 
+onready var ai = get_node("../AI")
 var x
 var y
 var game
 var map
 var gui
+var pvp = true
 
 
 func move(move_x, move_y):
@@ -21,10 +23,13 @@ func select(select_step):
 		var score = map.map[y][x]
 		if map.delete_cell(x, y):
 			game.set_score(game.step, score)
-			game.change_step()
+			game.change_step()				
 			if !map.check_step(game.step, x, y):
 				game.end_game()
 				gui.show_end(get_winner())
+			elif game.step == 2 and pvp == false:
+				ai.make_step()
+				
 
 
 func get_winner():
@@ -40,6 +45,7 @@ func _ready():
 	# Initialization
 	x = 3
 	y = 3
+	pvp = false
 	position = Vector2((120 * x) + 280 + 60, (120 * y) + 60)
 	game = get_node("..")
 	map = get_node("../Map")
@@ -54,11 +60,12 @@ func _process(delta):
 		move(1, 0)
 	if Input.is_action_just_released("ui_accept_p1"):
 		select(1)
-
-	# Player 2
-	if Input.is_action_just_released("ui_up"):
-		move(0, -1)
-	if Input.is_action_just_released("ui_down"):
-		move(0, 1)
-	if Input.is_action_just_released("ui_accept_p2"):
-		select(2)
+		
+	if pvp == true:
+		# Player 2
+		if Input.is_action_just_released("ui_up"):
+			move(0, -1)
+		if Input.is_action_just_released("ui_down"):
+			move(0, 1)
+		if Input.is_action_just_released("ui_accept_p2"):
+			select(2)
